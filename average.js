@@ -11,10 +11,10 @@ function average(numbers) {
       total += numbers[i];
       count++;
   }
-  
+
   //rounded to 2 digits after decimal
   var average = ((total / count).toFixed(1));
-  return average; 
+  return parseFloat(average); 
 }
 
 module.exports = {average};
