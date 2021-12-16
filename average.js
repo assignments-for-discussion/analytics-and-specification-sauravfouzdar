@@ -17,22 +17,23 @@ function average(numbers) {
   for(let i=0;i<n;++i) {
       if(isNaN(numbers[i])) continue;//check to skip NaN: not a Number
       total += numbers[i];
-      if(i>0){
-        variation.push(numbers[i] - numbers[i-1]);
-      }
       count++;
   }
 
-  var min_delta_variation = MAX_TEMPERATURE;
-  var max_delta_variation = MIN_TEMPERATURE;
+  for(let i=1;i<n;++i){
+      variation.push(numbers[i] - numbers[i-1]);
+  }
+  var minDeltaVariation = MAX_TEMPERATURE;
+  var maxDeltaVariation = MIN_TEMPERATURE;
 
   for(let i=0;i<variation.length;++i){
 
-    min_delta_variation = Math.min(min_delta_variation, variation[i]);
-    max_delta_variation = Math.max(max_delta_variation, variation[i]);
+    minDeltaVariation = Math.min(minDeltaVariation, variation[i]);
+    maxDeltaVariation = Math.max(maxDeltaVariation, variation[i]);
     
   } 
-
+  
+  var differenceDeltaVariation = maxDeltaVariation - minDeltaVariation;
   /**
    * In real world scenario variation of 5 unit temperature 
    * is considered a significant change, so if
@@ -42,9 +43,7 @@ function average(numbers) {
    */
   //rounded to 2 digits after decimal
 
-  var difference_delta_variation = max_delta_variation - min_delta_variation;
-
-  if(difference_delta_variation>= 5){
+  if(differenceDeltaVariation>= 5){
 
     // fluctuation is too much
     return NaN;
