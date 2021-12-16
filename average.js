@@ -5,6 +5,20 @@ const MIN_TEMPERATURE = 0;
  * that SENSOR can read
  * I have arbitrarily assumed 1000 and 0 respectively
  */
+function deltaVariation(variation){
+
+  var minDeltaVariation = MAX_TEMPERATURE;
+  var maxDeltaVariation = MIN_TEMPERATURE;
+
+  for(let i=0;i<variation.length;++i){
+
+    minDeltaVariation = Math.min(minDeltaVariation, variation[i]);
+    maxDeltaVariation = Math.max(maxDeltaVariation, variation[i]);
+    
+  } 
+  return (maxDeltaVariation - minDeltaVariation);
+}
+
 
 function average(numbers) {
   //return numbers.reduce((p, c)=> p + c, 0) / numbers.length;
@@ -23,17 +37,8 @@ function average(numbers) {
   for(let i=1;i<n;++i){
       variation.push(numbers[i] - numbers[i-1]);
   }
-  var minDeltaVariation = MAX_TEMPERATURE;
-  var maxDeltaVariation = MIN_TEMPERATURE;
-
-  for(let i=0;i<variation.length;++i){
-
-    minDeltaVariation = Math.min(minDeltaVariation, variation[i]);
-    maxDeltaVariation = Math.max(maxDeltaVariation, variation[i]);
-    
-  } 
   
-  var differenceDeltaVariation = maxDeltaVariation - minDeltaVariation;
+  var differenceDeltaVariation = deltaVariation(variation);;
   /**
    * In real world scenario variation of 5 unit temperature 
    * is considered a significant change, so if
@@ -43,6 +48,7 @@ function average(numbers) {
    */
   //rounded to 2 digits after decimal
 
+  
   if(differenceDeltaVariation>= 5){
 
     // fluctuation is too much
